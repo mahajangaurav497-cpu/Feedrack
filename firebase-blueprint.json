@@ -1,0 +1,67 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "fullName": { "type": "string" },
+        "rollNumber": { "type": "string" },
+        "department": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "faculty", "admin"] },
+        "semester": { "type": "string" },
+        "year": { "type": "string" },
+        "password": { "type": "string" }
+      },
+      "required": ["userId", "role"]
+    },
+    "Survey": {
+      "title": "Survey",
+      "description": "Faculty survey.",
+      "type": "object",
+      "properties": {
+        "facultyId": { "type": "string" },
+        "facultyName": { "type": "string" },
+        "title": { "type": "string" },
+        "subjectName": { "type": "string" },
+        "subjectCode": { "type": "string" },
+        "semester": { "type": "string" },
+        "academicYear": { "type": "string" },
+        "dueDate": { "type": "string" },
+        "targetDepartments": { "type": "array", "items": { "type": "string" } },
+        "targetSemesters": { "type": "array", "items": { "type": "string" } },
+        "questions": { "type": "array" },
+        "status": { "type": "string", "enum": ["draft", "published"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["facultyId", "title", "subjectName", "status", "createdAt"]
+    },
+    "SurveyResponse": {
+      "title": "SurveyResponse",
+      "description": "Student feedback submission.",
+      "type": "object",
+      "properties": {
+        "surveyId": { "type": "string" },
+        "studentId": { "type": "string" },
+        "answers": { "type": "object" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["surveyId", "answers", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stored user profiles"
+    },
+    "surveys/{surveyId}": {
+      "schema": { "$ref": "#/entities/Survey" },
+      "description": "Stored surveys created by faculty"
+    },
+    "surveyResponses/{responseId}": {
+      "schema": { "$ref": "#/entities/SurveyResponse" },
+      "description": "Stored student feedback forms"
+    }
+  }
+}
